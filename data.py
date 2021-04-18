@@ -45,7 +45,7 @@ def get_data():
             time[0] = '0'
             time[1] = '0'
         df.Time.iloc[n] = "".join(time)
-        return df
+    return df
 
 def split_data(df):
     # file was sorted into arrested/none, so shuffle to randomize

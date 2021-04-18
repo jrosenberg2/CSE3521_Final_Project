@@ -2,7 +2,6 @@ import pandas as pd
 import math
 import numpy as np
 eps = np.finfo(float).eps
-
 def get_data():
     #Urls used to get to the data from the folder
     train_data_url = 'TrainData.csv'
@@ -34,6 +33,7 @@ def get_root_entropy(data_frame):
     entropy += -fraction*(np.log2(fraction))
   return entropy
 
+
 #Function used to get the entropy of an attribute
 def get_entropy(data_frame, attribute):
   entropy = 0
@@ -57,7 +57,7 @@ def get_gain(data_frame):
     IG = []
     for key in data_frame.keys()[1:]:
         IG.append(get_root_entropy(data_frame)-get_entropy(data_frame,key))
-    #print(IG)
+    print(IG)
     return data_frame.keys()[1:][np.argmax(IG)]
 
 #Function that returns a subtable of data
@@ -65,22 +65,25 @@ def get_subtable(data_frame, attribute, target):
   return data_frame[data_frame[attribute] == target].reset_index(drop=True)
 
 #Function that implements the id3 algorithm to recursively build the decision tree
-def build_tree(data_frame, tree = None):
+def build_tree(data_frame, tree = None , i=0):
   gain_node = get_gain(data_frame)
-  print("step 1")
+  #print(gain_node)
   values = np.unique(data_frame[gain_node])
-  print("step 2")
+  #print(values)
   if tree is None:
     tree = {}
     tree[gain_node] = {}
   for value in values:
     subtable = get_subtable(data_frame, gain_node, value)
     clValue,counts = np.unique(subtable[0],return_counts=True)
+    print(counts)
     if len(counts)==1:
       tree[gain_node][value] = clValue[0]
-
+      print("HEREEEEEEEEE")
+      break
     else:
-      tree[gain_node][value] = build_tree(subtable)
+      #print(i)
+      tree[gain_node][value] = build_tree(subtable, i=i+1)
 
   return tree
 
@@ -113,9 +116,12 @@ def get_accuracy(t):
 #Builds the tree based off of the train data
 def main():
     (test_data_frame, train_data_frame) = get_data()
+    print(train_data_frame.count)
     print("made it here")
-    t = build_tree(train_data_frame)
+    t = build_tree(train_data_frame, i=0)
     print("made it here")
     get_accuracy(t)
 if __name__ == '__main__':
     main()
+
+
