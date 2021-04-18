@@ -75,6 +75,12 @@ def split_data(df):
 
 def save_new_data(train_data, test_data):
     #save to seperate csv file to be used many times without changing the ordering of the rows, so that accuracy is always the same
+    columns_titles = ["Resolution","Category","DayOfWeek","Time","PdDistrict"]
+
+    #reorder to put target attribute "resolution" in first column
+    train_data=train_data.reindex(columns=columns_titles)
+    test_data=test_data.reindex(columns=columns_titles)
+
     train_data.to_csv("TrainData.csv", index=False)
     test_data.to_csv("TestData.csv", index=False)
 
