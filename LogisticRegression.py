@@ -51,6 +51,7 @@ def logisticRegression(df):
     x = df.drop('Resolution',axis = 1)
     y = df.Resolution
 
+    #This will separate 25%( default value) of the data into a subset for testing part and the remaining 75% will be used for our training subset.
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=4)
 
     #ensures the convergence of the LogisticRegression model
@@ -58,6 +59,7 @@ def logisticRegression(df):
 
     logistic_regression.fit(x_train, y_train)
 
+    #Predict whether an arrest will be made or not
     y_pred = logistic_regression.predict(x_test)
     
     return (y_test, y_pred)
