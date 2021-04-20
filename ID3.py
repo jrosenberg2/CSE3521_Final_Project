@@ -3,6 +3,7 @@ import math
 import numpy as np
 eps = np.finfo(float).eps
 
+#Implementation of the ID3 Algorithm
 def get_data():
     #Urls used to get to the data from the folder
     train_data_url = 'TrainData.csv'
