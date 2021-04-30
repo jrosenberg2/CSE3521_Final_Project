@@ -18,6 +18,7 @@ def get_data():
     df = pd.concat([train_data_frame, test_data_frame])
     return(df)
 
+#onehot encodes all of the data to eliminate the potetnial weight bias stemming from numerical grouping of features
 def oneHotData(df):
     y = pd.get_dummies(df.Category, prefix='Category')
     df = pd.concat([df, y], axis=1)
